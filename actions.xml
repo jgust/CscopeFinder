@@ -3,6 +3,7 @@
 
 <ACTIONS>
 	<!-- CscopeFinder stack actions -->
+    <!--
 	<ACTION NAME="cscopefinder-stack-push" NO_REPEAT="TRUE">
 		<CODE>
 			cscopefinder.CscopeFinderPlugin.pushPosition(view);
@@ -20,41 +21,41 @@
 			cscopefinder.CscopeFinderPlugin.clearStack(view);
 		</CODE>
 	</ACTION>
-
+    -->
 	<!-- CscopeFinder find actions -->
 	<ACTION NAME="cscopefinder-find-symbol" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_SYMBOL, false, true);
+           cscopefinder.CscopeFinderPlugin.findSymbol(view);
 		</CODE>
 	</ACTION>
 
 	<ACTION NAME="cscopefinder-find-calling" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_CALLING, false, true);
+            cscopefinder.CscopeFinderPlugin.findCalling(view);
 		</CODE>
 	</ACTION>
 
 	<ACTION NAME="cscopefinder-find-definition" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_DEFINITION, false, true);
+            cscopefinder.CscopeFinderPlugin.findDefinition(view, false);
 		</CODE>
 	</ACTION>
 
-	<ACTION NAME="cscopefinder-find-all-fcns" NO_REPEAT="TRUE">
+	<ACTION NAME="cscopefinder-preview-definition" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_ALL_FCNS, false, true);
+            cscopefinder.CscopeFinderPlugin.findDefinition(view, true);
 		</CODE>
 	</ACTION>
 
 	<ACTION NAME="cscopefinder-find-include" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_INCLUDE, false, true);
+		   cscopefinder.CscopeFinderPlugin.findIncludedBy(view);
 		</CODE>
 	</ACTION>
 
 	<ACTION NAME="cscopefinder-find-called-by" NO_REPEAT="TRUE">
 		<CODE>
-			cscopefinder.CscopeFinder.find(view, cscopefinder.CscopeFinder.FIND_CALLED_BY, false, true);
+           cscopefinder.CscopeFinderPlugin.findCalledBy(view);
 		</CODE>
 	</ACTION>
 
