@@ -1,51 +1,61 @@
 plugin.cscopefinder.CscopeFinderPlugin.activate=defer
 
-# Plugin information
+#{{{ Plugin information
 plugin.cscopefinder.CscopeFinderPlugin.name=CscopeFinder
-plugin.cscopefinder.CscopeFinderPlugin.author=Julius Gustavsson, Dean Hall
+plugin.cscopefinder.CscopeFinderPlugin.author=Julius Gustavsson
 plugin.cscopefinder.CscopeFinderPlugin.version=0.5
 plugin.cscopefinder.CscopeFinderPlugin.docs=index.html
+plugin.cscopefinder.CscopeFinderPlugin.usePluginHome=true
 plugin.cscopefinder.CscopeFinderPlugin.depend.0=jdk 1.5
 plugin.cscopefinder.CscopeFinderPlugin.depend.1=jedit 04.04.01.00
 plugin.cscopefinder.CscopeFinderPlugin.depend.2=plugin projectviewer.ProjectPlugin 2.9.0.0
 plugin.cscopefinder.CscopeFinderPlugin.depend.3=optional plugin plugin.ise.plugin.nav.NavigatorPlugin 2.2.0.0
+#}}}
 
-# Menu items
+
+#{{{ Menu items
 plugin.cscopefinder.CscopeFinderPlugin.menu=cscopefinder-find-symbol \
                                             cscopefinder-find-definition \
                                             cscopefinder-find-calling \
                                             cscopefinder-find-called-by \
                                             cscopefinder-find-include \
-                                            cscopefinder-preview-definition
+#                                            cscopefinder-preview-definition \
+                                            cscopefinder-update-index \
+                                            cscopefinder-generate-index
 
-# Action labels
+#}}}
+
+
+#{{{ Action labels
 cscopefinder-find-symbol.label=Find this C symbol
 cscopefinder-find-definition.label=Find definition
 cscopefinder-find-calling.label=Find functions calling this
 cscopefinder-find-called-by.label=Find functions called by this
 cscopefinder-find-include.label=Find files #including this
 cscopefinder-preview-definition.label=Preview definition
+#}}}
 
-
-# Dockables
+#{{{ Dockables
 dockables.CscopeFinder.results-list.title=Cscope Results
 dockables.CscopeFinder.results-list.label=Cscope Results
 dockables.CscopeFinder.preview.title=Cscope Definition Preview
 dockables.CscopeFinder.preview.label=Cscope Definition Preview
+#}}}
 
-
-# Option pane
+#{{{ Option pane
 plugin.cscopefinder.CscopeFinderPlugin.option-pane=CscopeFinder
 options.CscopeFinder.label=CscopeFinder
 options.CscopeFinder.code=new cscopefinder.CscopeFinderOptionPane();
+#}}}
 
-# Options
+#{{{ Options
 options.CscopeFinder.cscope-path=cscope
 options.CscopeFinder.cscope-db-path=.jedit-cscope
+#}}}
 
-# Messages
+#{{{ Messages
 messages.CscopeFinder.cscope-path=Cscope executable path:
 messages.CscopeFinder.check-cscope-path=Check path
 messages.CscopeFinder.bad-cscope-path=Cscope path does not exist or is not an executable file
 messages.CscopeFinder.good-cscope-path=Cscope path is okay
-
+#}}}
