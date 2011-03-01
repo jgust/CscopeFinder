@@ -10,6 +10,7 @@ import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.util.Log;
 
 import cscopefinder.commands.CscopeCommand;
+import cscopefinder.helpers.ConfigHelper;
 
 public class CscopeRunner {
 
@@ -56,7 +57,7 @@ public class CscopeRunner {
             return null;
 
         String cscopeDbDir = projectPath + File.separatorChar +
-                jEdit.getProperty(CscopeFinderPlugin.OPTION + "cscope-db-path");
+                ConfigHelper.getConfig(ConfigHelper.OPTION + "cscope-db-path");
 
         if (CscopeFinderPlugin.verifyCscopePath(cscopePath) && verifyCscopeDbDir(cscopeDbDir)) {
             Process p = execute(cscopePath, cmd, cscopeDbDir, error);

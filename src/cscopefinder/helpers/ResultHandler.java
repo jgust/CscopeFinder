@@ -17,7 +17,7 @@ import cscopefinder.dockables.ResultListListener;
 
 public class ResultHandler {
 
-    static final String LIST_DOCKABLE = CscopeFinderPlugin.DOCKABLE + "results-list";
+    static final String LIST_DOCKABLE = ConfigHelper.DOCKABLE + "results-list";
 
     public void process(final View view, final String query, Vector<CscopeResult> results) {
 

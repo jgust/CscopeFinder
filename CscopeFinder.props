@@ -3,7 +3,7 @@ plugin.cscopefinder.CscopeFinderPlugin.activate=defer
 #{{{ Plugin information
 plugin.cscopefinder.CscopeFinderPlugin.name=CscopeFinder
 plugin.cscopefinder.CscopeFinderPlugin.author=Julius Gustavsson
-plugin.cscopefinder.CscopeFinderPlugin.version=0.5
+plugin.cscopefinder.CscopeFinderPlugin.version=0.5.1
 plugin.cscopefinder.CscopeFinderPlugin.docs=index.html
 plugin.cscopefinder.CscopeFinderPlugin.usePluginHome=true
 plugin.cscopefinder.CscopeFinderPlugin.depend.0=jdk 1.5
@@ -19,10 +19,9 @@ plugin.cscopefinder.CscopeFinderPlugin.menu=cscopefinder-find-symbol \
                                             cscopefinder-find-calling \
                                             cscopefinder-find-called-by \
                                             cscopefinder-find-include \
-#                                            cscopefinder-preview-definition \
                                             cscopefinder-update-index \
                                             cscopefinder-generate-index
-
+#                                            cscopefinder-preview-definition
 #}}}
 
 
@@ -49,13 +48,24 @@ options.CscopeFinder.code=new cscopefinder.CscopeFinderOptionPane();
 #}}}
 
 #{{{ Options
-options.CscopeFinder.cscope-path=cscope
-options.CscopeFinder.cscope-db-path=.jedit-cscope
+options.CscopeFinder.cscope-path.default=cscope
+options.CscopeFinder.cscope-db-path.default=.jedit-cscope
+options.CscopeFinder.fileglobs.default=*.h,*.c,*.cpp
+options.CscopeFinder.index-timeout.default=3
+options.CscopeFinder.index-auto.default=true
 #}}}
 
 #{{{ Messages
 messages.CscopeFinder.cscope-path=Cscope executable path:
+messages.CscopeFinder.cscope-path.tooltip=Full path to the cscope executable.
 messages.CscopeFinder.check-cscope-path=Check path
 messages.CscopeFinder.bad-cscope-path=Cscope path does not exist or is not an executable file
 messages.CscopeFinder.good-cscope-path=Cscope path is okay
+messages.CscopeFinder.fileglobs=Files to index:
+messages.CscopeFinder.fileglobs.tooltip=Comma seperated list of standards glob patterns.
+messages.CscopeFinder.index-timeout=Indexing timeout:
+messages.CscopeFinder.index-timeout.tooltip=Whatchdog timer value while cscope is indexing files (in case it hangs).
+messages.CscopeFinder.index-timeout.units=minutes
+messages.CscopeFinder.index-auto=Update index automatically:
+messages.CscopeFinder.index-auto.tooltip=Update the index automatically on e.g. buffer saves.
 #}}}

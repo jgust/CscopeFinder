@@ -11,6 +11,7 @@ import org.gjt.sp.util.Log;
 import cscopefinder.commands.CscopeCommand;
 import cscopefinder.commands.CscopeQueryCommand;
 
+import cscopefinder.helpers.ConfigHelper;
 import cscopefinder.helpers.ProjectHelper;
 import cscopefinder.helpers.ResultHandler;
 
@@ -25,10 +26,6 @@ import static cscopefinder.commands.CscopeQueryCommand.createCommand;
 
 public class CscopeFinderPlugin extends EditPlugin
 {
-    static public final String OPTION = "options.CscopeFinder.";
-	static public final String MESSAGE = "messages.CscopeFinder.";
-	static public final String DOCKABLE = "dockables.CscopeFinder.";
-
 	static private CscopeRunner runner;
 	static private ProjectHelper projHelper;
 	static private ResultHandler resultHandler;
@@ -88,7 +85,7 @@ public class CscopeFinderPlugin extends EditPlugin
         }
 
         String projectPath = projHelper.getProjectPath(view);
-        String cscopePath = jEdit.getProperty(OPTION + "cscope-path");
+        String cscopePath = ConfigHelper.getConfig(ConfigHelper.OPTION + "cscope-path");
         return runner.runCommand(createCommand(type, query),
                                             cscopePath, projectPath);
     }
