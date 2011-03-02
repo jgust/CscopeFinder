@@ -6,15 +6,43 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.util.Log;
 
 import cscopefinder.commands.CscopeCommand;
 import cscopefinder.helpers.ConfigHelper;
 
+import projectviewer.vpt.VPTProject;
+
 public class CscopeRunner {
 
+    private RunnerThread runner;
+
+    public CscopeRunner() {
+        runner = new RunnerThread();
+    }
+
     public CscopeCommand runCommand(CscopeCommand cmd, String cscopePath, String projectPath) {
+
+        if (cscopePath == null || cscopePath.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "The path to the cscope executable was empty!\n" +
+                                "Please check your plugin options.");
+            return cmd;
+        }
+
+        if (projectPath == null || projectPath.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "The project associated with this Cscope command\n" +
+                        "was empty! Check the activity log for details.");
+            return cmd;
+        }
+
+        if (!runner.isIdle()) {
+            JOptionPane.showMessageDialog(view, "Cscope is busy. Try again later...");
+            return cmd;
+        }
+
         StringBuffer error = new StringBuffer();
         Process p = run(cmd, cscopePath, projectPath, error);
         try {
@@ -30,8 +58,14 @@ public class CscopeRunner {
         return cmd;
     }
 
-    private boolean verifyCscopeDbDir(String dbDir) {
+    private boolean verifyCscopeDbDir(VPTProject prj) {
         boolean verified = true;
+
+        if (prj == null) {
+            return false;
+        }
+
+        String dbDir = ConfigHelper.getCscopeDbPath(prj);
 
         if (!(new File(dbDir)).isDirectory())
             verified = false;
@@ -45,22 +79,50 @@ public class CscopeRunner {
         if (verified && !(new File(dbDir, "cscope.po.out")).isFile())
             verified = false;
 
-        if (!verified)
+        if (!verified) {
+            JOptionPane.showMessageDialog(view, "No Cscope database found for project " +
+                        prj.getName() + ".\n\n" +
+                        "Hint: Run CscopeFinder->" +
+                        jEdit.getProperty("cscopefinder-generate-index.label"));
+
             Log.log(Log.ERROR, CscopeFinderPlugin.class, "No cscope database found in " + dbDir
                                         + ".");
+        }
         return verified;
     }
 
+    private class RunnerThread extends Thread {
+        private boolean isIdle;
+        private CscopeCommand currentCmd;
+        private int timeout;
+        private Process process;
+        private Timer timer;
+
+        public void run() {
+        }
+
+        public boolean isIdle() {
+
+        }
+
+        public void runCommand(CscopeCommand cmd) {
+
+        }
+
+        public void abortCommand() {
+
+        }
+
+
+    }
+
     private Process run(CscopeCommand cmd, String cscopePath,
-                        String projectPath, StringBuffer error) {
+                        VPTProject project, StringBuffer error) {
         if (projectPath == null)
             return null;
 
-        String cscopeDbDir = projectPath + File.separatorChar +
-                ConfigHelper.getConfig(ConfigHelper.OPTION + "cscope-db-path");
-
-        if (CscopeFinderPlugin.verifyCscopePath(cscopePath) && verifyCscopeDbDir(cscopeDbDir)) {
-            Process p = execute(cscopePath, cmd, cscopeDbDir, error);
+        if (CscopeFinderPlugin.verifyCscopePath(cscopePath) && verifyCscopeDbDir(project)) {
+            Process p = execute(cscopePath, cmd, project, error);
             return p;
         }
         return null;

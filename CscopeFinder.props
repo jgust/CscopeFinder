@@ -31,6 +31,8 @@ cscopefinder-find-definition.label=Find definition
 cscopefinder-find-calling.label=Find functions calling this
 cscopefinder-find-called-by.label=Find functions called by this
 cscopefinder-find-include.label=Find files #including this
+cscopefinder-update-index.label=Update Cscope index
+cscopefinder-generate-index.label=Generate Cscope index
 cscopefinder-preview-definition.label=Preview definition
 #}}}
 

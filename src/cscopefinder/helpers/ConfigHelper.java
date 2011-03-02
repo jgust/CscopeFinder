@@ -1,5 +1,7 @@
 package cscopefinder.helpers;
 
+import java.io.File;
+
 import org.gjt.sp.jedit.jEdit;
 
 public class ConfigHelper {
@@ -22,6 +24,10 @@ public class ConfigHelper {
 	public static boolean getBooleanConfig(String propName) {
 	    boolean defaultValue = jEdit.getBooleanProperty(propName + DEFAULT);
 	    return jEdit.getBooleanProperty(propName, defaultValue);
+	}
+
+	public static String getCscopeDbPath(String projPath) {
+	    return projPath + File.separatorChar + getConfig(ConfigHelper.OPTION + "cscope-db-path");
 	}
 
 }
