@@ -30,4 +30,30 @@ public class ConfigHelper {
 	    return projPath + File.separatorChar + getConfig(ConfigHelper.OPTION + "cscope-db-path");
 	}
 
+	public static boolean verifyCscopePath(String path) {
+        File f = new File(path);
+		if ((! f.exists()) || (! f.canExecute())) {
+		    return false;
+		}
+		return true;
+    }
+
+    public static boolean verifyCscopeDbDir(String dbDir) {
+        boolean verified = true;
+
+        if (!(new File(dbDir)).isDirectory())
+            verified = false;
+
+        if (verified && !(new File(dbDir, "cscope.out")).isFile())
+            verified = false;
+
+        if (verified && !(new File(dbDir, "cscope.in.out")).isFile())
+            verified = false;
+
+        if (verified && !(new File(dbDir, "cscope.po.out")).isFile())
+            verified = false;
+
+        return verified;
+    }
+
 }

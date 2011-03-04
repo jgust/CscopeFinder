@@ -1,5 +1,7 @@
 package cscopefinder;
 
+import cscopefinder.helpers.ConfigHelper;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -122,7 +124,7 @@ public class CscopeFinderOptionPane extends AbstractOptionPane {
 
 	private boolean checkPath() {
 		String path = cscopePath.getText();
-		if (!CscopeFinderPlugin.verifyCscopePath(path)) {
+		if (!ConfigHelper.verifyCscopePath(path)) {
 		    JOptionPane.showMessageDialog(this, jEdit.getProperty(PATH_NOK_LABEL));
 			return false;
 		}

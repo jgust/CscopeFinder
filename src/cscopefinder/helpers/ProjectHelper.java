@@ -23,7 +23,6 @@ public class ProjectHelper {
         prj = findProjectForFile(path);
 
         if (prj == null) {
-            String path = ((Buffer)view.getTextArea().getBuffer()).getPath();
             Log.log(Log.ERROR, CscopeFinderPlugin.class, "Could not find a project for file: "
                 + path);
         }
@@ -44,13 +43,34 @@ public class ProjectHelper {
         return prj;
     }
 
+    public static String findProjectWithPath(String path) {
+        String prjName = "";
+        ProjectManager pm = ProjectManager.getInstance();
+        for(VPTProject p : pm.getProjects()) {
+            if (path.equals(p.getRootPath())) {
+                prjName = p.getName();
+                break;
+            }
+        }
+        return prjName;
+    }
+
     public static String getProjectPath(VPTProject prj) {
         if(prj == null)
             return null;
         return prj.getRootPath();
     }
 
+    public static String getProjectPath(View view) {
+        return getProjectPath(findProject(view));
+    }
+
     public static String getActiveProjectPath(View view) {
         return getProjectPath(ProjectViewer.getActiveProject(view));
     }
+
+    public static void generateFileList(View view) {
+        Log.log(Log.WARNING, CscopeFinderPlugin.class, "generateFileList not implemented yet!");
+    }
+
 }
