@@ -56,8 +56,8 @@ public abstract class QueryCommand extends CscopeCommand
     @Override
     protected boolean preVerify(StringBuilder error) {
         if (super.preVerify(error) && !ConfigHelper.verifyCscopeDbDir(getWorkingDir())) {
-            error.append("No Cscope database found for project " +
-                        ProjectHelper.findProjectWithPath(projectPath) + ".\n\n" +
+            error.append("No Cscope database found for project '" +
+                        ProjectHelper.findProjectWithPath(projectPath) + "'.\n" +
                         "Hint: Run CscopeFinder->" +
                         jEdit.getProperty("cscopefinder-generate-index.label"));
 

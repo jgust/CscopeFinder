@@ -1,10 +1,14 @@
 package cscopefinder.commands;
 
+import cscopefinder.helpers.ProjectHelper;
+
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.util.Log;
 
 import cscopefinder.CscopeFinderPlugin;
@@ -37,7 +41,7 @@ public class UpdateDbCommand extends CscopeCommand
 
     @Override
     protected boolean preVerify(StringBuilder error) {
-        if (createDbDir(error)) {
+        if (verifyDbDir(error)) {
             watchdog = new WatchdogTask(Thread.currentThread());
             reScheduleWatchdog();
         }
@@ -69,8 +73,23 @@ public class UpdateDbCommand extends CscopeCommand
         }
     }
 
-    protected boolean createDbDir(StringBuilder error) {
-        return false;
+    protected boolean verifyDbDir(StringBuilder error) {
+        if (!ConfigHelper.createCscopeDbDir(projectPath)) {
+            error.append("Could not create a DB directory in '" + projectPath + "'");
+            return false;
+        }
+
+        String dbPath = ConfigHelper.getCscopeDbPath(projectPath);
+
+        if (!(new File(dbPath, "cscope.files")).isFile()) {
+            error.append("cscope.files does not exist for project '"
+                    + ProjectHelper.findProjectWithPath(projectPath) + "'.\n"
+                    + "Hint: Run CscopeFinder->"
+                    + jEdit.getProperty("cscopefinder-generate-index.label"));
+            return false;
+        }
+
+        return true;
     }
 
     private class WatchdogTask extends TimerTask {

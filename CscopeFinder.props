@@ -20,7 +20,8 @@ plugin.cscopefinder.CscopeFinderPlugin.menu=cscopefinder-find-symbol \
                                             cscopefinder-find-called-by \
                                             cscopefinder-find-include \
                                             cscopefinder-update-index \
-                                            cscopefinder-generate-index
+                                            cscopefinder-generate-index \
+                                            cscopefinder-abort-command
 #                                            cscopefinder-preview-definition
 #}}}
 
@@ -34,6 +35,7 @@ cscopefinder-find-include.label=Find files #including this
 cscopefinder-update-index.label=Update Cscope index
 cscopefinder-generate-index.label=Generate Cscope index
 cscopefinder-preview-definition.label=Preview definition
+cscopefinder-abort-command.label=Abort current Cscope command
 #}}}
 
 #{{{ Dockables
@@ -52,7 +54,7 @@ options.CscopeFinder.code=new cscopefinder.CscopeFinderOptionPane();
 #{{{ Options
 options.CscopeFinder.cscope-path.default=cscope
 options.CscopeFinder.cscope-db-path.default=.jedit-cscope
-options.CscopeFinder.fileglobs.default=*.h,*.c,*.cpp
+options.CscopeFinder.fileglobs.default=*.h *.c *.cpp
 options.CscopeFinder.index-timeout.default=3
 options.CscopeFinder.index-auto.default=true
 #}}}
@@ -64,7 +66,7 @@ messages.CscopeFinder.check-cscope-path=Check path
 messages.CscopeFinder.bad-cscope-path=Cscope path does not exist or is not an executable file
 messages.CscopeFinder.good-cscope-path=Cscope path is okay
 messages.CscopeFinder.fileglobs=Files to index:
-messages.CscopeFinder.fileglobs.tooltip=Comma seperated list of standards glob patterns.
+messages.CscopeFinder.fileglobs.tooltip=Space seperated list of standards glob patterns.
 messages.CscopeFinder.index-timeout=Indexing timeout:
 messages.CscopeFinder.index-timeout.tooltip=Whatchdog timer value while cscope is indexing files (in case it hangs).
 messages.CscopeFinder.index-timeout.units=minutes

@@ -56,4 +56,20 @@ public class ConfigHelper {
         return verified;
     }
 
+    public static boolean createCscopeDbDir(String projectPath) {
+        if (projectPath == null)
+            return false;
+
+        if (!(new File(projectPath)).isDirectory())
+            return false;
+
+        File dbDir = new File(getCscopeDbPath(projectPath));
+
+        if (!(dbDir).isDirectory()) {
+            return dbDir.mkdir();
+        }
+
+        return true;
+    }
+
 }

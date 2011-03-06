@@ -1,5 +1,7 @@
 package cscopefinder;
 
+import javax.swing.JOptionPane;
+
 import org.gjt.sp.jedit.EditPlugin;
 import org.gjt.sp.jedit.View;
 
@@ -52,12 +54,21 @@ public class CscopeFinderPlugin extends EditPlugin
     }
 
     public static void generateDb(View view) {
-        projHelper.generateFileList(view);
+        if (!projHelper.generateFileList(view)) {
+            JOptionPane.showMessageDialog(view, "The project did not contain any files matching " +
+                                "the specified filter.\n" +
+                                "Please check your plugin options.");
+            return;
+        }
         updateDb(view);
     }
 
     public static void updateDb(View view) {
         runner.runCommand(view, new UpdateDbCommand());
+    }
+
+    public static void abortCurrentCommand(View view) {
+        runner.abortCurrentCommand();
     }
 
     private static void runQuery(View view, int type) {
