@@ -30,18 +30,25 @@ public class CscopeRunner {
             return;
         }
 
+        cmd.setView(view);
+        cmd.setCscopePath(cscopePath);
+        cmd.setProjectPath(projectPath);
+
+        runCommand(cmd, view);
+
+    }
+
+    public void runCommand(Runnable cmd, View view) {
+        if (t == Thread.currentThread())
+            return;
+
         if (t != null && t.isAlive()) {
             JOptionPane.showMessageDialog(view, "Cscope is busy. Try again later...");
             return;
         }
 
-        cmd.setView(view);
-        cmd.setCscopePath(cscopePath);
-        cmd.setProjectPath(projectPath);
-
         Thread t = new Thread(cmd);
         t.start();
-
     }
 
     public void abortCurrentCommand() {

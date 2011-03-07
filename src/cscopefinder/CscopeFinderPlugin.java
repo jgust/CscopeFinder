@@ -1,7 +1,5 @@
 package cscopefinder;
 
-import javax.swing.JOptionPane;
-
 import org.gjt.sp.jedit.EditPlugin;
 import org.gjt.sp.jedit.View;
 
@@ -9,6 +7,7 @@ import org.gjt.sp.util.Log;
 
 import cscopefinder.helpers.ProjectHelper;
 import cscopefinder.commands.UpdateDbCommand;
+import cscopefinder.commands.GenerateFileListCommand;
 
 import static cscopefinder.commands.QueryCommand.FIND_SYMBOL;
 import static cscopefinder.commands.QueryCommand.FIND_DEF;
@@ -53,14 +52,14 @@ public class CscopeFinderPlugin extends EditPlugin
         runQuery(view, FIND_CALLED_BY);
     }
 
-    public static void generateDb(View view) {
-        if (!projHelper.generateFileList(view)) {
-            JOptionPane.showMessageDialog(view, "The project did not contain any files matching " +
-                                "the specified filter.\n" +
-                                "Please check your plugin options.");
-            return;
-        }
-        updateDb(view);
+    public static void generateDb(final View view) {
+
+        Runnable runAfter = new Runnable() {
+            public void run() {
+                updateDb(view);
+            }
+        };
+        runner.runCommand(new GenerateFileListCommand(view, runAfter), view);
     }
 
     public static void updateDb(View view) {

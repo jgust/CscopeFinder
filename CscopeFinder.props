@@ -72,4 +72,6 @@ messages.CscopeFinder.index-timeout.tooltip=Whatchdog timer value while cscope i
 messages.CscopeFinder.index-timeout.units=minutes
 messages.CscopeFinder.index-auto=Update index automatically:
 messages.CscopeFinder.index-auto.tooltip=Update the index automatically on e.g. buffer saves.
+messages.CscopeFinder.progress.generating-filelist=Generating cscope.files
+messages.CscopeFinder.progress.updating-index=Updating cscope index
 #}}}
