@@ -5,14 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import org.gjt.sp.jedit.Buffer;
 import org.gjt.sp.jedit.View;
 import org.gjt.sp.util.Log;
-import org.gjt.sp.util.StandardUtilities;
 
 import projectviewer.ProjectManager;
 import projectviewer.ProjectViewer;
@@ -99,18 +95,18 @@ public class ProjectHelper {
                     ConfigHelper.getConfig(ConfigHelper.OPTION + "fileglobs"));
             boolean foundOne = false;
             for (VPTNode node : proj.getOpenableNodes()) {
-                File file = new File(node.getNodePath());
+                String filePath = node.getNodePath();
                  Log.log(Log.DEBUG, CscopeFinderPlugin.class,
-                    "Processing File '" + file.getPath() + "'.");
+                    "Processing File '" + filePath + "'.");
 
-                if (filter.accept(file)) {
+                if (filter.accept(filePath)) {
                     // TODO: make line ending configurable
                     // For cygwin we probably want unix line endings on windows.
-                    out.write(file.getPath());
+                    out.write(filePath);
                     out.newLine();
                     foundOne = true;
                     Log.log(Log.DEBUG, CscopeFinderPlugin.class,
-                    "File '" + node.getNodePath() + "' matched filter.");
+                    "File '" + filePath + "' matched filter.");
                 }
             }
 
@@ -123,50 +119,6 @@ public class ProjectHelper {
             return false;
         }
 
-    }
-
-    /* based on a class from ProjectViewer with same name */
-    private static class GlobFilter {
-        private Pattern file_positive;
-        private Pattern file_negative;
-
-        public GlobFilter(String fileGlobs) {
-            StringTokenizer globs = new StringTokenizer(fileGlobs);
-			StringBuilder fPos = new StringBuilder();
-			StringBuilder fNeg = new StringBuilder();
-
-			while (globs.hasMoreTokens()) {
-				String token = globs.nextToken();
-				if (token.startsWith("!")) {
-					fNeg.append(StandardUtilities.globToRE(token.substring(1)));
-					fNeg.append('|');
-				} else {
-					fPos.append(StandardUtilities.globToRE(token));
-					fPos.append('|');
-				}
-			}
-			if (fNeg.length() > 0)
-				fNeg.setLength(fNeg.length() - 1);
-			if (fPos.length() > 0)
-				fPos.setLength(fPos.length() - 1);
-
-			try {
-			    file_positive = Pattern.compile(fPos.toString());
-			    file_negative = Pattern.compile(fNeg.toString());
-			} catch (PatternSyntaxException re) {
-				Log.log(Log.ERROR, CscopeFinderPlugin.class, re);
-			}
-        }
-
-        public boolean accept(File file) {
-            if (file_positive == null) {
-                Log.log(Log.ERROR, CscopeFinderPlugin.class, "File glob regexp was null!");
-                return false;
-            }
-
-            return file_positive.matcher(file.getName()).matches()
-				   && !file_negative.matcher(file.getName()).matches();
-        }
     }
 
 }

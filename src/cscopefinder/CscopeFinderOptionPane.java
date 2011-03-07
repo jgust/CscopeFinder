@@ -1,7 +1,5 @@
 package cscopefinder;
 
-import cscopefinder.helpers.ConfigHelper;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,10 +58,11 @@ public class CscopeFinderOptionPane extends AbstractOptionPane {
 
 	@Override
 	public void _save() {
-	    if (checkPath()) {
-            jEdit.setProperty(CSCOPE_PATH, cscopePath.getText());
-            EditBus.send(new PropertiesChanged(null));
-        }
+	    jEdit.setProperty(CSCOPE_PATH, cscopePath.getText());
+        jEdit.setProperty(FILEGLOBS, fileglobs.getText());
+        jEdit.setIntegerProperty(INDEX_TIMEOUT, (Integer)timeoutSpinner.getValue());
+        jEdit.setBooleanProperty(AUTO_INDEX, autoIndex.isSelected());
+        EditBus.send(new PropertiesChanged(null));
 	}
 
 	@Override

@@ -42,8 +42,8 @@ public class UpdateDbCommand extends CscopeCommand
     @Override
     protected boolean preVerify(StringBuilder error) {
         if (verifyDbDir(error)) {
-            watchdog = new WatchdogTask(Thread.currentThread());
             reScheduleWatchdog();
+            return true;
         }
         return false;
     }
@@ -54,23 +54,40 @@ public class UpdateDbCommand extends CscopeCommand
     }
 
     public void onLineRead(String line) {
+        Log.log(Log.MESSAGE, CscopeFinderPlugin.class, getClass().toString() +
+                    ": Line: " + line);
         Matcher m = pattern.matcher(line);
-        presenter.processProgress(view, Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)));
+        if (m.matches()) {
+            presenter.processProgress(view, Integer.parseInt(m.group(1)),
+                                            Integer.parseInt(m.group(2)));
+        }
         reScheduleWatchdog();
     }
 
     public void onReadComplete() {
         presenter.finished(view);
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
     }
 
     protected void reScheduleWatchdog() {
-        timer.cancel();
-        if (watchdog != null) {
-            int timeout = ConfigHelper.getIntegerConfig(ConfigHelper.OPTION + OPTION_INDEX_TIMEOUT);
-            timeout = timeout * 60 * 1000;
+        if (timer == null)
+            return;
+
+        WatchdogTask old = watchdog;
+        int timeout = ConfigHelper.getIntegerConfig(ConfigHelper.OPTION + OPTION_INDEX_TIMEOUT);
+        timeout = timeout * 60 * 1000;
+        watchdog = new WatchdogTask(Thread.currentThread());
+        try {
             timer.schedule(watchdog, timeout);
+        } catch (IllegalStateException ise) {
+            timer = null;
+            Log.log(Log.MESSAGE, CscopeFinderPlugin.class, getClass().toString() +
+                            ": Timer was dead. Watchdog will not be scheduled.");
         }
+
+        if (old != null)
+            old.cancel();
     }
 
     protected boolean verifyDbDir(StringBuilder error) {
