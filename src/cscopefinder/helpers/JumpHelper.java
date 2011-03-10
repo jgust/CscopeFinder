@@ -18,12 +18,7 @@ import cscopefinder.CscopeResult;
 public class JumpHelper {
 
     public static void jumpToResult(final View view, final CscopeResult result) {
-        final Buffer buffer = jEdit.openFile(view, result.filename);
-
-        if(buffer == null)
-            return;
-
-        new Jump(view, buffer, result.query, result.line);
+        new Jump(view, result.filename, result.query, result.line);
     }
 
     private static void sendAutoJump(final View view, final boolean starting) {
@@ -34,54 +29,65 @@ public class JumpHelper {
     }
 
     public static class Jump implements Runnable {
-        private final Buffer buffer;
+        private Buffer buffer;
+        private final String filename;
         private final View view;
         private final String target;
         private final int line;
         private boolean bufferLoaded;
 
-        public Jump(final View view, final Buffer buffer, final String target, final int line) {
+        public Jump(final View view, final String filename, final String target, final int line) {
             this.view = view;
-            this.buffer = buffer;
+            this.filename = filename;
             this.target = target;
             this.line = line;
             bufferLoaded = false;
 
+            ThreadUtilities.runInDispatchThread(this);
+        }
+
+        public void run() {
             EditBus.addToBus(this);
+
+            buffer = jEdit.openFile(view, filename);
+
+            if(buffer == null) {
+                EditBus.removeFromBus(this);
+                Log.log(Log.ERROR, CscopeFinderPlugin.class, "Jump failed! Could not open file");
+                return;
+            }
+
             sendAutoJump(view, true);
+
             view.goToBuffer(buffer);
 
             synchronized(this) {
                 if (!bufferLoaded && buffer.isLoaded()) {
-                    readyToJump();
-                }
-            }
-
-        }
-
-        private void readyToJump() {
-            synchronized(this) {
-                if (!bufferLoaded) {
                     bufferLoaded = true;
-                    EditBus.removeFromBus(this);
-                    ThreadUtilities.runInDispatchThread(this);
+                    bufferLoaded();
                 }
             }
         }
 
         @EBHandler
-		public void handleBufferUpdate(BufferUpdate msg)
-		{
+		public void handleBufferUpdate(BufferUpdate msg) {
+		    if (buffer == null)
+		        return;
+
 			if (msg.getWhat() == BufferUpdate.LOADED &&
-				msg.getBuffer() == buffer)
-			{
-				readyToJump();
+                        msg.getBuffer() == buffer) {
+			    EditBus.removeFromBus(this);
+			    synchronized(this) {
+			        if (!bufferLoaded) {
+                        bufferLoaded = true;
+                        bufferLoaded();
+			        }
+				}
 			}
 		}
 
-        public void run() {
-
-            int start = 0;
+		private void bufferLoaded() {
+		    int start = 0;
             int end = 0;
 
             int lineNo = line - 1;
@@ -106,7 +112,8 @@ public class JumpHelper {
                 view.getTextArea().requestFocus();
 
             sendAutoJump(view, false);
-        }
+		}
+
     }
 
 }
