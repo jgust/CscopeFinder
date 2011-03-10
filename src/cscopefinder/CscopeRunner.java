@@ -39,8 +39,10 @@ public class CscopeRunner {
     }
 
     public void runCommand(Runnable cmd, View view) {
-        if (t == Thread.currentThread())
+        if (t == Thread.currentThread()) {
+            cmd.run();
             return;
+        }
 
         if (t != null && t.isAlive()) {
             JOptionPane.showMessageDialog(view, "Cscope is busy. Try again later...");

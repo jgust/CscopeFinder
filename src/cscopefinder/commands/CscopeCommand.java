@@ -138,20 +138,19 @@ public abstract class CscopeCommand implements Runnable {
         public void run() {
             try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
-				String line;
-				do {
-					line = br.readLine();
-					if (line != null)
+				String line = null;
+				while ((line = br.readLine()) != null) {
 						cb.onLineRead(line);
 				}
-				while (line != null);
-				is.close();
 			}
 			catch (IOException ioe) {
 				Log.log(Log.ERROR, CscopeFinderPlugin.class, "Reading from process caused "
 				    + "an exception!", ioe);
 			}
 			finally {
+			    try {
+			        is.close();
+			    } catch (IOException ioe) { /* dont care */ }
 			    cb.onReadComplete();
 			}
         }

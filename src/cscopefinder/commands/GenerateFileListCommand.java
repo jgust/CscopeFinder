@@ -13,6 +13,7 @@ import cscopefinder.helpers.ProjectHelper;
 import cscopefinder.presenters.ProgressPresenter;
 
 import org.gjt.sp.jedit.View;
+import org.gjt.sp.jedit.jEdit;
 import org.gjt.sp.util.Log;
 
 import projectviewer.vpt.VPTNode;
@@ -43,7 +44,8 @@ public class GenerateFileListCommand implements Runnable {
     }
 
     public boolean generateFileList() {
-        ProgressPresenter presenter = new ProgressPresenter();
+        ProgressPresenter presenter = new ProgressPresenter(
+                    jEdit.getProperty(ConfigHelper.MESSAGE + "progress.generating-filelist"));
         VPTProject proj = ProjectHelper.findProject(view);
 
         if (proj == null)
@@ -57,7 +59,10 @@ public class GenerateFileListCommand implements Runnable {
         }
 
         try {
-            FileWriter fw = new FileWriter(new File(projPath, "cscope.files"));
+            Log.log(Log.MESSAGE, CscopeFinderPlugin.class,
+                    "Generating file list for project: " + proj.getName());
+            FileWriter fw = new FileWriter(
+                    new File(ConfigHelper.getCscopeDbPath(projPath), "cscope.files"));
             BufferedWriter out = new BufferedWriter(fw);
             GlobFilter filter = new GlobFilter(
                     ConfigHelper.getConfig(ConfigHelper.OPTION + "fileglobs"));
@@ -80,6 +85,7 @@ public class GenerateFileListCommand implements Runnable {
             }
 
             presenter.finished(view);
+            out.flush();
             out.close();
             return foundOne;
 

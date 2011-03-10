@@ -9,14 +9,19 @@ import cscopefinder.CscopeFinderPlugin;
 
 public class ProgressPresenter {
 
-    private final String prefix;
+    private String prefix;
+    private int lastProgress;
 
-    public void ProgressPresenter(String prefix) {
+    public ProgressPresenter(String prefix) {
         this.prefix = prefix;
+        lastProgress = 0;
     }
+
     public void processProgress(final View view, int currentProgress, int total) {
         int percent = (currentProgress/total) * 100;
-        updateProgress(view, percent);
+        if ((percent - lastProgress) > 5)
+            updateProgress(view, percent);
+        lastProgress = percent;
     }
 
     public void finished(final View view) {
@@ -26,7 +31,7 @@ public class ProgressPresenter {
     private void updateProgress(final View view, final int percent) {
         Runnable r = new Runnable() {
             public void run() {
-                String msg = prefix + ' ' + precent + '%';
+                String msg = prefix + ' ' + percent + '%';
                 view.getStatus().setMessageAndClear(msg);
             }
         };
@@ -38,11 +43,12 @@ public class ProgressPresenter {
 				SwingUtilities.invokeAndWait(r);
 			} catch (InterruptedException ie) {
 				// not gonna happen
-				Log.log(Log.ERROR, PVActions.class, ie);
+				Log.log(Log.ERROR, CscopeFinderPlugin.class, ie);
 			} catch (java.lang.reflect.InvocationTargetException ite) {
 				// not gonna happen
-				Log.log(Log.ERROR, PVActions.class, ite);
+				Log.log(Log.ERROR, CscopeFinderPlugin.class, ite);
 			}
+
 		}
     }
 

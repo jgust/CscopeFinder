@@ -1,6 +1,6 @@
 package cscopefinder.commands;
 
-import cscopefinder.helpers.ProjectHelper;
+
 
 import java.io.File;
 import java.util.Timer;
@@ -13,6 +13,7 @@ import org.gjt.sp.util.Log;
 
 import cscopefinder.CscopeFinderPlugin;
 import cscopefinder.helpers.ConfigHelper;
+import cscopefinder.helpers.ProjectHelper;
 import cscopefinder.presenters.ProgressPresenter;
 
 public class UpdateDbCommand extends CscopeCommand
@@ -29,7 +30,8 @@ public class UpdateDbCommand extends CscopeCommand
 
     public UpdateDbCommand() {
         args = UPDATE_DB_ARGS;
-        presenter = new ProgressPresenter();
+        presenter = new ProgressPresenter(
+                    jEdit.getProperty(ConfigHelper.MESSAGE + "progress.updating-index"));
         pattern = Pattern.compile(PROGRESS_RE);
         timer = new Timer();
     }
@@ -105,7 +107,8 @@ public class UpdateDbCommand extends CscopeCommand
                     + jEdit.getProperty("cscopefinder-generate-index.label"));
             return false;
         }
-
+        Log.log(Log.DEBUG, CscopeFinderPlugin.class, "Updating index for " +
+            ProjectHelper.findProjectWithPath(projectPath));
         return true;
     }
 
