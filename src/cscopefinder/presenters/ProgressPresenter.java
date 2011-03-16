@@ -18,10 +18,12 @@ public class ProgressPresenter {
     }
 
     public void processProgress(final View view, int currentProgress, int total) {
-        int percent = (currentProgress/total) * 100;
-        if ((percent - lastProgress) > 5)
+        int percent = (currentProgress * 100) / total;
+
+        if (percent - lastProgress > 10){
             updateProgress(view, percent);
-        lastProgress = percent;
+            lastProgress = percent;
+        }
     }
 
     public void finished(final View view) {

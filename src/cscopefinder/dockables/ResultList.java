@@ -3,7 +3,6 @@ package cscopefinder.dockables;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -24,6 +23,7 @@ import org.gjt.sp.jedit.View;
 import org.gjt.sp.jedit.gui.DefaultFocusComponent;
 
 import cscopefinder.CscopeResult;
+import cscopefinder.helpers.ConfigHelper;
 import cscopefinder.helpers.ProjectHelper;
 
 public class ResultList extends JPanel implements DefaultFocusComponent
@@ -94,7 +94,7 @@ public class ResultList extends JPanel implements DefaultFocusComponent
 			CscopeResult element = (CscopeResult) resultsModel.getElementAt(index);
 			l.setText(shortenFileName(element.filename)
                         + ":" + element.line + ": " + element.preview);
-			l.setFont(new Font("Monospaced", Font.PLAIN, 12));
+			l.setFont(ConfigHelper.getFontConfig(ConfigHelper.OPTION + "font"));
 			l.setBorder(BorderFactory.createLoweredBevelBorder());
 			return l;
         }

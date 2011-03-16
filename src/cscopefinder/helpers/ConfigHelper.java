@@ -1,5 +1,6 @@
 package cscopefinder.helpers;
 
+import java.awt.Font;
 import java.io.File;
 
 import org.gjt.sp.jedit.jEdit;
@@ -24,6 +25,14 @@ public class ConfigHelper {
 	public static boolean getBooleanConfig(String propName) {
 	    boolean defaultValue = jEdit.getBooleanProperty(propName + DEFAULT);
 	    return jEdit.getBooleanProperty(propName, defaultValue);
+	}
+
+	public static Font getFontConfig(String fontName) {
+	    Font defaultFont = new Font(jEdit.getProperty(fontName + DEFAULT),
+                    jEdit.getIntegerProperty(fontName + "style" + DEFAULT),
+                    jEdit.getIntegerProperty(fontName + "size" + DEFAULT));
+
+	    return jEdit.getFontProperty(fontName, defaultFont);
 	}
 
 	public static String getCscopeDbPath(String projPath) {

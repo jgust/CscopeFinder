@@ -53,6 +53,9 @@ options.CscopeFinder.code=new cscopefinder.CscopeFinderOptionPane();
 
 #{{{ Options
 options.CscopeFinder.cscope-path.default=cscope
+options.CscopeFinder.font.default=Monospaced
+options.CscopeFinder.fontsize.default=12
+options.CscopeFinder.fontstyle.default=0
 options.CscopeFinder.cscope-db-path.default=.jedit-cscope
 options.CscopeFinder.fileglobs.default=*.h *.c *.cpp
 options.CscopeFinder.index-timeout.default=3
@@ -65,12 +68,14 @@ messages.CscopeFinder.cscope-path.tooltip=Full path to the cscope executable.
 messages.CscopeFinder.check-cscope-path=Check path
 messages.CscopeFinder.bad-cscope-path=Cscope path does not exist or is not an executable file
 messages.CscopeFinder.good-cscope-path=Cscope path is okay
+messages.CscopeFinder.font=Font:
+messages.CscopeFinder.font.tooltip=Choose a font for the 'Cscope Results' dockable.
 messages.CscopeFinder.fileglobs=Files to index:
 messages.CscopeFinder.fileglobs.tooltip=Space seperated list of standards glob patterns.
 messages.CscopeFinder.index-timeout=Indexing timeout:
 messages.CscopeFinder.index-timeout.tooltip=Whatchdog timer value while cscope is indexing files (in case it hangs).
 messages.CscopeFinder.index-timeout.units=minutes
-messages.CscopeFinder.index-auto=Update index automatically:
+messages.CscopeFinder.index-auto=Update index automatically
 messages.CscopeFinder.index-auto.tooltip=Update the index automatically on e.g. buffer saves.
 messages.CscopeFinder.progress.generating-filelist=Generating cscope.files
 messages.CscopeFinder.progress.updating-index=Updating cscope index

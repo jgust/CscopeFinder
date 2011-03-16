@@ -25,11 +25,11 @@ public abstract class QueryCommand extends CscopeCommand
     public static final int FIND_CALLED_BY = 3;
     public static final int FIND_INCLUDE   = 4;
 
-    protected static final String FIND_SYMBOL_ARGS    = "-d -L -0";
-    protected static final String FIND_DEF_ARGS       = "-d -L -1";
-    protected static final String FIND_CALLED_BY_ARGS = "-d -L -2";
-    protected static final String FIND_CALLING_ARGS   = "-d -L -3";
-    protected static final String FIND_INCLUDE_ARGS   = "-d -L -8";
+    protected static final String FIND_SYMBOL_ARGS    = "-L -0";
+    protected static final String FIND_DEF_ARGS       = "-L -1";
+    protected static final String FIND_CALLED_BY_ARGS = "-L -2";
+    protected static final String FIND_CALLING_ARGS   = "-L -3";
+    protected static final String FIND_INCLUDE_ARGS   = "-L -8";
     protected static final String DEFAULT_PARSE_REGEXP  = "^(\\S+)\\s*(\\S+)?\\s*(\\d+)\\s*(.*)$";
 
     protected final String query;
@@ -45,6 +45,7 @@ public abstract class QueryCommand extends CscopeCommand
 
     @Override
     protected String getArgs() {
+        String args = ConfigHelper.getBooleanConfig("index-auto") ? this.args : "-d " + this.args;
         return args + query;
     }
 
@@ -62,17 +63,22 @@ public abstract class QueryCommand extends CscopeCommand
                         jEdit.getProperty("cscopefinder-generate-index.label"));
 
             Log.log(Log.ERROR, CscopeFinderPlugin.class,
-                "No cscope database found in " + getWorkingDir() + ".");
+                    "No cscope database found in " + getWorkingDir() + ".");
 
             return false;
         }
         return true;
     }
 
+    protected boolean usePreviewAsQuery() {
+        return false;  /* don't use the preview */
+    }
+
     public void onLineRead(String line) {
         Matcher m = pattern.matcher(line);
         if (m.matches()) {
-            results.add(new CscopeResult(m.group(1), m.group(3), m.group(2), m.group(4), query));
+            results.add(new CscopeResult(m.group(1), m.group(3),
+                m.group(2), m.group(4), usePreviewAsQuery() ? m.group(4) : query));
         }
     }
 
@@ -136,6 +142,11 @@ public abstract class QueryCommand extends CscopeCommand
         args = FIND_CALLED_BY_ARGS;
         presenter = p;
     }
+
+    @Override
+    protected boolean usePreviewAsQuery() {
+        return true;
+    }
 }
 
 /*package*/ class FindIncludingCommand extends QueryCommand {
@@ -143,6 +154,11 @@ public abstract class QueryCommand extends CscopeCommand
         super(query);
         args = FIND_INCLUDE_ARGS;
         presenter = p;
+    }
+
+    @Override
+    protected boolean usePreviewAsQuery() {
+        return true;
     }
 }
 
