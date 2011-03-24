@@ -6,5 +6,6 @@
         new cscopefinder.dockables.ResultList(view);
 	</DOCKABLE>
 	<DOCKABLE NAME="dockables.CscopeFinder.preview" MOVABLE="TRUE">
+        new cscopefinder.dockables.Preview(view);
 	</DOCKABLE>
 </DOCKABLES>

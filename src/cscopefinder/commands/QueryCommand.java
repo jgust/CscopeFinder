@@ -15,9 +15,10 @@ import cscopefinder.presenters.ResultPresenter;
 import cscopefinder.helpers.ConfigHelper;
 import cscopefinder.helpers.ProjectHelper;
 
-
 public abstract class QueryCommand extends CscopeCommand
                                     implements CscopeCommand.ReaderThreadCallback{
+
+    static final String AUTO_UPDATE = ConfigHelper.OPTION + "index-auto";
 
     public static final int FIND_SYMBOL    = 0;
     public static final int FIND_DEF       = 1;
@@ -38,14 +39,14 @@ public abstract class QueryCommand extends CscopeCommand
 
     public QueryCommand(String query) {
         this.query = query;
-        results = new Vector();
+        results = new Vector<CscopeResult>();
         presenter = null;
         pattern = Pattern.compile(DEFAULT_PARSE_REGEXP);
     }
 
     @Override
     protected String getArgs() {
-        String args = ConfigHelper.getBooleanConfig("index-auto") ? this.args : "-d " + this.args;
+        String args = ConfigHelper.getBooleanConfig(AUTO_UPDATE) ? this.args : "-d " + this.args;
         return args + query;
     }
 
