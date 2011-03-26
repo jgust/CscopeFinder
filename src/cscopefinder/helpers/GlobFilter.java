@@ -11,7 +11,8 @@ import org.gjt.sp.util.StandardUtilities;
 import cscopefinder.CscopeFinderPlugin;
 
 /* based on a class from ProjectViewer with same name */
-public class GlobFilter {
+public class GlobFilter
+{
     private Pattern file_positive;
     private Pattern file_negative;
 

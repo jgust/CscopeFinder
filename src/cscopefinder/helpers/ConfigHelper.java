@@ -5,7 +5,8 @@ import java.io.File;
 
 import org.gjt.sp.jedit.jEdit;
 
-public class ConfigHelper {
+public class ConfigHelper
+{
     static public final String OPTION = "options.CscopeFinder.";
     static public final String DEFAULT = ".default";
     static public final String TOOLTIP = ".tooltip";

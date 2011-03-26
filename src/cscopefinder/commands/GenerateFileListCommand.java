@@ -25,10 +25,16 @@ public class GenerateFileListCommand implements Runnable {
 
     private Runnable runAfter;
     private View view;
+    private VPTProject proj;
 
     public GenerateFileListCommand(View view, Runnable runAfter) {
+        this(ProjectHelper.findProject(view), view, runAfter);
+    }
+
+    public GenerateFileListCommand(VPTProject prj, View view, Runnable runAfter) {
         this.runAfter = runAfter;
         this.view = view;
+        this.proj = prj;
     }
 
     public void run() {
@@ -46,7 +52,6 @@ public class GenerateFileListCommand implements Runnable {
     public boolean generateFileList() {
         ProgressPresenter presenter = new ProgressPresenter(
                     jEdit.getProperty(ConfigHelper.MESSAGE + "progress.generating-filelist"));
-        VPTProject proj = ProjectHelper.findProject(view);
 
         if (proj == null)
             return false;

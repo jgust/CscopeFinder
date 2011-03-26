@@ -1,6 +1,7 @@
 package cscopefinder;
 
-public class CscopeResult {
+public class CscopeResult
+{
 
     public final String filename;
     public final int line;

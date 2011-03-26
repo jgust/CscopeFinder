@@ -7,8 +7,8 @@ import org.gjt.sp.util.Log;
 
 import cscopefinder.CscopeFinderPlugin;
 
-public class ProgressPresenter {
-
+public class ProgressPresenter
+{
     private String prefix;
     private int lastProgress;
 

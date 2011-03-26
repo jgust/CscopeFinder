@@ -10,7 +10,8 @@ import org.gjt.sp.util.Log;
 import cscopefinder.commands.CscopeCommand;
 import cscopefinder.helpers.ConfigHelper;
 
-public class CscopeRunner {
+public class CscopeRunner
+{
 
     Thread t = null;
 

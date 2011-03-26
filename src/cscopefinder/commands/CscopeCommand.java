@@ -71,7 +71,7 @@ public abstract class CscopeCommand implements Runnable {
 
     }
 
-    protected interface ReaderThreadCallback {
+    public interface ReaderThreadCallback {
         public void onLineRead(String line);
         public void onReadComplete();
     }
@@ -125,7 +125,7 @@ public abstract class CscopeCommand implements Runnable {
 		return null;
     }
 
-    private class StreamReaderThread extends Thread {
+    public class StreamReaderThread extends Thread {
 
         private InputStream is;
         private ReaderThreadCallback cb;

@@ -1,9 +1,9 @@
-plugin.cscopefinder.CscopeFinderPlugin.activate=defer
+plugin.cscopefinder.CscopeFinderPlugin.activate=startup
 
 #{{{ Plugin information
 plugin.cscopefinder.CscopeFinderPlugin.name=CscopeFinder
 plugin.cscopefinder.CscopeFinderPlugin.author=Julius Gustavsson
-plugin.cscopefinder.CscopeFinderPlugin.version=0.5.1
+plugin.cscopefinder.CscopeFinderPlugin.version=0.5.2
 plugin.cscopefinder.CscopeFinderPlugin.docs=index.html
 plugin.cscopefinder.CscopeFinderPlugin.usePluginHome=true
 plugin.cscopefinder.CscopeFinderPlugin.depend.0=jdk 1.5
@@ -22,7 +22,7 @@ plugin.cscopefinder.CscopeFinderPlugin.menu=cscopefinder-find-symbol \
                                             cscopefinder-update-index \
                                             cscopefinder-generate-index \
                                             cscopefinder-abort-command
-#                                            cscopefinder-preview-definition
+                                            cscopefinder-preview-definition
 #}}}
 
 
@@ -59,7 +59,7 @@ options.CscopeFinder.fontstyle.default=0
 options.CscopeFinder.cscope-db-path.default=.jedit-cscope
 options.CscopeFinder.fileglobs.default=*.h *.c *.cpp
 options.CscopeFinder.index-timeout.default=3
-options.CscopeFinder.index-auto.default=true
+options.CscopeFinder.index-auto.default=false
 #}}}
 
 #{{{ Messages

@@ -9,6 +9,8 @@ import cscopefinder.helpers.ProjectHelper;
 import cscopefinder.commands.UpdateDbCommand;
 import cscopefinder.commands.GenerateFileListCommand;
 
+import projectviewer.vpt.VPTProject;
+
 import static cscopefinder.commands.QueryCommand.FIND_SYMBOL;
 import static cscopefinder.commands.QueryCommand.FIND_DEF;
 import static cscopefinder.commands.QueryCommand.FIND_CALLING;
@@ -23,13 +25,17 @@ public class CscopeFinderPlugin extends EditPlugin
 	static private ProjectHelper projHelper;
 
     public void start() {
+        Log.log(Log.DEBUG, CscopeFinderPlugin.class, "Starting...");
         runner = new CscopeRunner();
         projHelper = new ProjectHelper();
+        projHelper.startWatcher();
     }
 
     public void stop() {
         runner = null;
+        projHelper.stopWatcher();
         projHelper = null;
+        Log.log(Log.DEBUG, CscopeFinderPlugin.class, "Stopped.");
     }
 
     public static void findSymbol(View view) {
@@ -60,6 +66,15 @@ public class CscopeFinderPlugin extends EditPlugin
             }
         };
         runner.runCommand(new GenerateFileListCommand(view, runAfter), view);
+    }
+
+    public static void generateDb(final View view, final VPTProject prj) {
+        Runnable runAfter = new Runnable() {
+            public void run() {
+                updateDb(view);
+            }
+        };
+        runner.runCommand(new GenerateFileListCommand(prj, view, runAfter), view);
     }
 
     public static void updateDb(View view) {

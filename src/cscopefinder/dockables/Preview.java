@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import javax.swing.DefaultListCellRenderer;
@@ -78,7 +77,7 @@ public class Preview extends CscopeDockable
         }
     }
 
-    private class PreviewCellRenderer extends DefaultListCellRenderer
+    public class PreviewCellRenderer extends DefaultListCellRenderer
     {
         private Vector<PreviewTextArea> previews;
 
@@ -106,7 +105,7 @@ public class Preview extends CscopeDockable
         }
     }
 
-    private class PreviewTextArea extends JEditEmbeddedTextArea
+    public class PreviewTextArea extends JEditEmbeddedTextArea
     {
         private StringBuffer content;
         private Mode mode;
@@ -164,6 +163,7 @@ public class Preview extends CscopeDockable
         public Dimension getPreferredSize()
         {
             Dimension dim = super.getPreferredSize();
+            // plus 2 to get rid of scrollbar
             dim.height = painter.getFontMetrics().getHeight() * (NO_LINES + 2);
             return dim;
         }

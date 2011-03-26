@@ -15,7 +15,8 @@ import cscopefinder.CscopeFinderPlugin;
 import cscopefinder.CscopeResult;
 
 
-public class JumpHelper {
+public class JumpHelper
+{
 
     public static void jumpToResult(final View view, final CscopeResult result) {
         new Jump(view, result.filename, result.query, result.line);

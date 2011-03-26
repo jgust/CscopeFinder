@@ -1,7 +1,5 @@
 package cscopefinder.commands;
 
-
-
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -112,7 +110,7 @@ public class UpdateDbCommand extends CscopeCommand
         return true;
     }
 
-    private class WatchdogTask extends TimerTask {
+    public class WatchdogTask extends TimerTask {
         private final Thread thread;
 
         public WatchdogTask(Thread t) {
